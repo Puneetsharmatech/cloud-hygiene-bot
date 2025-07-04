@@ -49,4 +49,4 @@ tee -a "$report_file"
 # -------------------------
 # ✅ Completion Message
 # -------------------------
-echo -e "\n✅ Scan Complete. Report saved to: $report_file"
+echo -e "\n✅ Scan Complete.  Report saved to: $report_file"
