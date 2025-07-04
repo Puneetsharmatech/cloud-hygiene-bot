@@ -14,7 +14,7 @@ A modular, automated tool that scans your Azure infrastructure for:
 - (Later: GitHub Actions, Slack/Email alerts, Python for reports)
 
 ## 📁 Project Structure
-
+```bash
 cloud-hygiene-bot/
 ├── terraform/ # Infrastructure (Azure VM, etc.)
 │ └── azure_vm/
