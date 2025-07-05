@@ -1,6 +1,12 @@
 name: 🧼 Azure Hygiene Bot
 
 on:
+  push:
+    branches:
+      - dev
+  pull_request:
+    branches:
+      - dev
   schedule:
     - cron: '0 8 * * *'  # Runs daily at 8:00 AM UTC
   workflow_dispatch:      # Allows manual trigger
