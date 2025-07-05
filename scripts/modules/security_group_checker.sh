@@ -11,6 +11,7 @@
 # Timestamp for filename
 timestamp=$(date +"%Y-%m-%d_%H-%M-%S")
 report_file="../../reports/nsg_security_report_$timestamp.txt"
+mkdir -p "$(dirname "$report_file")"
 
 # Azure login check
 if ! az account show > /dev/null 2>&1; then

@@ -12,6 +12,7 @@
 # Set timestamp for report
 timestamp=$(date +"%Y-%m-%d_%H-%M-%S")
 report_file="../../reports/unused_vm_resources_report_$timestamp.txt"
+mkdir -p "$(dirname "$report_file")"
 
 # Azure CLI login check
 if ! az account show > /dev/null 2>&1; then

@@ -12,6 +12,7 @@
 timestamp=$(date +"%Y-%m-%d_%H-%M-%S")
 logfile="../reports/full_scan_log_$timestamp.txt"
 
+
 # Start log
 echo "🧼 Cloud Hygiene Bot - Full Run ($timestamp)" | tee "$logfile"
 echo "==============================================" | tee -a "$logfile"
