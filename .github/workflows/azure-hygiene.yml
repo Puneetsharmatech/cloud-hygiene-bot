@@ -46,3 +46,26 @@ jobs:
         name: full-scan-log
         path: reports/latest_full_scan_log.txt
 
+    - name: 📧 Send report via email
+      uses: dawidd6/action-send-mail@v3
+      with:
+        server_address: smtp.gmail.com
+        server_port: 587
+        username: ${{ secrets.EMAIL_USERNAME }}
+        password: ${{ secrets.EMAIL_PASSWORD }}
+        subject: "🧼 Cloud Hygiene Report - ${{ github.run_id }}"
+        to: ${{ secrets.EMAIL_TO }}
+        from: Cloud Hygiene Bot <${{ secrets.EMAIL_USERNAME }}>
+        body: |
+          Hello!
+
+          Please find attached the latest Cloud Hygiene scan report from GitHub Actions.
+
+          Run ID: ${{ github.run_id }}
+          Repo: ${{ github.repository }}
+          Time: ${{ github.run_started_at }}
+
+          Regards,
+          Hygiene Bot 🤖
+        attachments: reports/latest_full_scan_log.txt
+
