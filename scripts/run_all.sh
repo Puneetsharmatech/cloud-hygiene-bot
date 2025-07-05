@@ -11,7 +11,7 @@
 # Timestamp for this run
 timestamp=$(date +"%Y-%m-%d_%H-%M-%S")
 logfile="../reports/full_scan_log_$timestamp.txt"
-
+mkdir -p "$(dirname "$logfile")"
 
 # Start log
 echo "🧼 Cloud Hygiene Bot - Full Run ($timestamp)" | tee "$logfile"
