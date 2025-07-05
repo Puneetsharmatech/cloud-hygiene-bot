@@ -28,7 +28,7 @@ echo "=========================================" | tee -a "$report_file"
 # -------------------------
 echo -e "\n🔎 Stopped Virtual Machines:" | tee -a "$report_file"
 
-az vm list --query "[?powerState=='VM deallocated'].[name, resourceGroup, location]" -o table |
+az vm list -d --query "[?powerState=='VM deallocated'].[name, resourceGroup, location]" -o table |
 tee -a "$report_file"
 
 # -------------------------
