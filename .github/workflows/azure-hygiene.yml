@@ -40,8 +40,9 @@ jobs:
         scripts/run_all.sh
 
         
-    - name: upload Final Report
+    - name: 📤 Upload Full Scan Log
       uses: actions/upload-artifact@v4
       with:
-        name: hygiene-reports
-        path: ./reports/
+        name: full-scan-log
+        path: reports/latest_full_scan_log.txt
+
