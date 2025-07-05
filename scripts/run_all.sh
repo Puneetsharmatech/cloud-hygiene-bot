@@ -33,3 +33,6 @@ elapsed=$((end_time - start_time))
 # End summary
 echo -e "\n✅ Full hygiene scan complete in $elapsed seconds." | tee -a "$logfile"
 echo "📄 Log saved to: $logfile"
+
+# ✅ Copy dynamic log to static name for GitHub Actions to upload
+cp "$logfile" "../reports/latest_full_scan_log.txt"
