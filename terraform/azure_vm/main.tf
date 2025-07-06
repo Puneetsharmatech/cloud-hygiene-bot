@@ -3,6 +3,7 @@
 # Use Azure provider
 provider "azurerm" {
   features {}
+  subscription_id = "a8715d58-743d-4b54-b671-230ce91aab9b"
 }
 
 # Create resource group
@@ -32,7 +33,8 @@ resource "azurerm_public_ip" "vm_ip" {
   name                = "hygiene-vm-ip"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
-  allocation_method   = "Dynamic"
+  allocation_method   = "Static"   # changed from Dynamic to Static
+  sku                 = "Standard" # required to be set with Static
 }
 
 # Create NIC
@@ -78,4 +80,29 @@ resource "azurerm_linux_virtual_machine" "vm" {
   }
 
   disable_password_authentication = true
+}
+
+# 🔐 Create NSG with rule to allow SSH
+resource "azurerm_network_security_group" "nsg" {
+  name                = "hygiene-nsg"
+  location            = azurerm_resource_group.rg.location
+  resource_group_name = azurerm_resource_group.rg.name
+
+  security_rule {
+    name                       = "Allow-SSH"
+    priority                   = 1001
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    destination_port_range     = "22"
+    source_address_prefix      = "*"
+    destination_address_prefix = "*"
+  }
+
+  # Add more rules here later (HTTP, HTTPS, etc.)
+}
+resource "azurerm_network_interface_security_group_association" "nic_nsg_assoc" {
+  network_interface_id      = azurerm_network_interface.nic.id
+  network_security_group_id = azurerm_network_security_group.nsg.id
 }

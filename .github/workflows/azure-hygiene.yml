@@ -1,0 +1,71 @@
+name: 🧼 Azure Hygiene Bot
+
+on:
+  push:
+    branches:
+      - dev
+  pull_request:
+    branches:
+      - dev
+  schedule:
+    - cron: '0 8 * * *'  # Runs daily at 8:00 AM UTC
+  workflow_dispatch:      # Allows manual trigger
+
+jobs:
+  hygiene-scan:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: 📥 Checkout Code
+      uses: actions/checkout@v3
+
+    - name: 🔐 Azure Login
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: 🧪 Run Unused Resource Scanner
+      run: |
+        chmod +x scripts/modules/unused_vm_detector.sh
+        scripts/modules/unused_vm_detector.sh
+
+    - name: 🔐 Run NSG Security Scanner
+      run: |
+        chmod +x scripts/modules/security_group_checker.sh
+        scripts/modules/security_group_checker.sh
+
+    - name: Create Final Report
+      run: |
+        chmod +x scripts/run_all.sh
+        scripts/run_all.sh
+
+        
+    - name: 📤 Upload Full Scan Log
+      uses: actions/upload-artifact@v4
+      with:
+        name: full-scan-log
+        path: reports/latest_full_scan_log.txt
+
+    - name: 📧 Send report via email
+      uses: dawidd6/action-send-mail@v3
+      with:
+        server_address: smtp.gmail.com
+        server_port: 587
+        username: ${{ secrets.EMAIL_USERNAME }}
+        password: ${{ secrets.EMAIL_PASSWORD }}
+        subject: "🧼 Cloud Hygiene Report - ${{ github.run_id }}"
+        to: ${{ secrets.EMAIL_TO }}
+        from: Cloud Hygiene Bot <${{ secrets.EMAIL_USERNAME }}>
+        body: |
+          Hello!
+
+          Please find attached the latest Cloud Hygiene scan report from GitHub Actions.
+
+          Run ID: ${{ github.run_id }}
+          Repo: ${{ github.repository }}
+          Time: ${{ github.run_started_at }}
+
+          Regards,
+          Hygiene Bot 🤖
+        attachments: reports/latest_full_scan_log.txt
+
