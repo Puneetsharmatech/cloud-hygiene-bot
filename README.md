@@ -7,7 +7,6 @@ Every cloud environment needs a little maintenance. The **Cloud Hygiene Bot** is
 As cloud environments grow, it's easy to lose track of resources. This bot tackles key "cloud hygiene" issues:
 
 * **Unused Resources:** Ever left a VM running or a disk unattached? This bot finds them, saving you money.
-* **Terraform Drift:** When your live infrastructure doesn't match your IaC code, things get messy. My bot catches this early.
 * **Security Gaps:** It performs quick checks for basic security risks, like public IPs on sensitive services.
 
 ### 🛠️ The Tech Behind the Bot
